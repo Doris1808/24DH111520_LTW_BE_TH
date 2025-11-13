@@ -1,0 +1,26 @@
+﻿@model _24DH111520_LTW_BE_TH.Models.Category
+
+@{
+    ViewBag.Title = "Sửa danh mục";
+}
+
+<div class="container mt-4">
+    <h2>Sửa danh mục</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form action="/Admin/Category/Edit" method="post">
+        <input type="hidden" name="CategoryId" value="@Model.CategoryId" />
+
+        <div class="form-group mb-3">
+            <label for="CategoryName">Tên danh mục</label>
+            <input type="text" name="CategoryName" id="CategoryName" value="@Model.CategoryName" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-success mt-2">Lưu thay đổi</button>
+        <a href="/Admin/Category" class="btn btn-secondary mt-2">Quay lại</a>
+    </form>
+</div>

@@ -1,0 +1,55 @@
+﻿@model _24DH111520_LTW_BE_TH.Models.Product
+
+@{
+    ViewBag.Title = "Sửa sản phẩm";
+}
+
+<div class="container mt-4">
+    <h2>Sửa sản phẩm</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form action="/Admin/Product/Edit" method="post">
+        <input type="hidden" name="ProductId" value="@Model.ProductId" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="ProductName">Tên sản phẩm</label>
+                    <input type="text" name="ProductName" id="ProductName" value="@Model.ProductName" class="form-control" required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="CategoryId">Danh mục</label>
+                    <select name="CategoryId" id="CategoryId" class="form-control" required>
+                        @foreach (var item in ViewBag.Categories)
+                        {
+                            <option value="@item.Value" selected="@(item.Value == Model.CategoryId.ToString())">@item.Text</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="ProductPrice">Giá</label>
+                    <input type="number" name="ProductPrice" id="ProductPrice" value="@Model.ProductPrice" class="form-control" step="1000" required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="ProductImage">Hình ảnh (URL)</label>
+                    <input type="text" name="ProductImage" id="ProductImage" value="@Model.ProductImage" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="ProductDescription">Mô tả</label>
+                    <textarea name="ProductDescription" id="ProductDescription" class="form-control" rows="4">@Model.ProductDescription</textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+                <a href="/Admin/Product" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </div>
+    </form>
+</div>

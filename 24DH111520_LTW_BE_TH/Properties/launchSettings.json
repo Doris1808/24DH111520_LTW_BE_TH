@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "24DH111520_LTW_BE_TH": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "Admin/Category",
+      "applicationUrl": "https://localhost:5001;http://localhost:5002",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true
+    }
+  }
+}

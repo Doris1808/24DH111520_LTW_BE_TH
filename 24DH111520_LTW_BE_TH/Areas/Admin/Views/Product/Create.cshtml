@@ -1,0 +1,54 @@
+﻿@model _24DH111520_LTW_BE_TH.Models.Product
+
+@{
+    ViewBag.Title = "Thêm sản phẩm mới";
+}
+
+<div class="container mt-4">
+    <h2>Thêm sản phẩm mới</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form action="/Admin/Product/Create" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="ProductName">Tên sản phẩm</label>
+                    <input type="text" name="ProductName" id="ProductName" class="form-control" required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="CategoryId">Danh mục</label>
+                    <select name="CategoryId" id="CategoryId" class="form-control" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        @foreach (var item in ViewBag.Categories)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="ProductPrice">Giá</label>
+                    <input type="number" name="ProductPrice" id="ProductPrice" class="form-control" step="1000" required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="ProductImage">Hình ảnh (URL)</label>
+                    <input type="text" name="ProductImage" id="ProductImage" class="form-control" placeholder="https://example.com/image.jpg" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="ProductDescription">Mô tả</label>
+                    <textarea name="ProductDescription" id="ProductDescription" class="form-control" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Lưu</button>
+                <a href="/Admin/Product" class="btn btn-secondary">Quay lại</a>
+            </div>
+        </div>
+    </form>
+</div>

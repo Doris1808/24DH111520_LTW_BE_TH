@@ -1,0 +1,49 @@
+﻿@model IEnumerable<_24DH111520_LTW_BE_TH.Models.Product>
+
+@{
+    ViewBag.Title = "Trang chủ";
+}
+
+<div class="container mt-4">
+    <!-- SEARCH BAR -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <form action="/Home/Search" method="get" class="d-flex">
+                <input type="text" name="keyword" class="form-control me-2" placeholder="Tìm kiếm sản phẩm..." />
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TITLE -->
+    <h2 class="mb-4">Sản phẩm mới nhất</h2>
+
+    <!-- PRODUCT GRID -->
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(item.ProductImage))
+                    {
+                        <img src="@item.ProductImage" class="card-img-top" alt="@item.ProductName" style="height: 200px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-white">No Image</span>
+                        </div>
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">@item.ProductName</h5>
+                        <p class="card-text text-danger fw-bold">@item.ProductPrice.ToString("N0") VNĐ</p>
+                        <p class="card-text text-muted">@item.Category?.CategoryName</p>
+                        <a href="/Home/ProductDetail/@item.ProductId" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                        <a href="/Cart/Add/@item.ProductId" class="btn btn-success btn-sm">Thêm vào giỏ</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<_24DH111520_LTW_BE_TH.Models.Product>
+
+@{
+    ViewBag.Title = "Tìm kiếm sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Tìm kiếm sản phẩm</h2>
+
+    <!-- SEARCH & FILTER -->
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" name="keyword" value="@ViewBag.Keyword" class="form-control" placeholder="Nhập từ khóa..." />
+            </div>
+            <div class="col-md-3">
+                <select name="categoryId" class="form-control">
+                    <option value="">-- Tất cả danh mục --</option>
+                    @foreach (var cat in ViewBag.Categories)
+                    {
+                        <option value="@cat.CategoryId" selected="@(cat.CategoryId == ViewBag.CategoryId)">@cat.CategoryName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="sort" class="form-control">
+                    <option value="">Mới nhất</option>
+                    <option value="price_asc" selected="@(ViewBag.Sort == "price_asc")">Giá thấp đến cao</option>
+                    <option value="price_desc" selected="@(ViewBag.Sort == "price_desc")">Giá cao đến thấp</option>
+                    <option value="name" selected="@(ViewBag.Sort == "name")">Tên A-Z</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- RESULTS -->
+    <p class="text-muted">Tìm thấy @Model.Count() sản phẩm</p>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(item.ProductImage))
+                    {
+                        <img src="@item.ProductImage" class="card-img-top" alt="@item.ProductName" style="height: 200px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-white">No Image</span>
+                        </div>
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">@item.ProductName</h5>
+                        <p class="card-text text-danger fw-bold">@item.ProductPrice.ToString("N0") VNĐ</p>
+                        <a href="/Customer/Home/ProductDetail/@item.ProductId" class="btn btn-primary btn-sm w-100">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- PAGING -->
+    @if (ViewBag.TotalPages > 1)
+    {
+        <nav>
+            <ul class="pagination justify-content-center">
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                        <a class="page-link" href="?keyword=@ViewBag.Keyword&categoryId=@ViewBag.CategoryId&sort=@ViewBag.Sort&page=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+</div>

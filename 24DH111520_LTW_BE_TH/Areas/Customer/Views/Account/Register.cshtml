@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Đăng ký tài khoản</h2>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">@ViewBag.Error</div>
+                    }
+
+                    <form action="/Customer/Account/Register" method="post">
+                        <div class="form-group mb-3">
+                            <label>Username *</label>
+                            <input type="text" name="username" class="form-control" required />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Password *</label>
+                            <input type="password" name="password" class="form-control" required />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Xác nhận Password *</label>
+                            <input type="password" name="confirmPassword" class="form-control" required />
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group mb-3">
+                            <label>Họ tên *</label>
+                            <input type="text" name="customerName" class="form-control" required />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Số điện thoại *</label>
+                            <input type="tel" name="customerPhone" class="form-control" required />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Email</label>
+                            <input type="email" name="customerEmail" class="form-control" />
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 mt-3">Đăng ký</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p>Đã có tài khoản? <a href="/Customer/Account/Login">Đăng nhập ngay</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

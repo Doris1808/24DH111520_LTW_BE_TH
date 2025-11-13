@@ -1,0 +1,40 @@
+﻿@model _24DH111520_LTW_BE_TH.Models.Product
+
+@{
+    ViewBag.Title = Model.ProductName;
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- IMAGE -->
+        <div class="col-md-6">
+            @if (!string.IsNullOrEmpty(Model.ProductImage))
+            {
+                <img src="@Model.ProductImage" class="img-fluid" alt="@Model.ProductName">
+            }
+            else
+            {
+                <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <span class="text-white fs-3">No Image</span>
+                </div>
+            }
+        </div>
+
+        <!-- DETAIL -->
+        <div class="col-md-6">
+            <h2>@Model.ProductName</h2>
+            <p class="text-muted">Danh mục: @Model.Category?.CategoryName</p>
+            <h3 class="text-danger">@Model.ProductPrice.ToString("N0") VNĐ</h3>
+
+            <div class="mt-3">
+                <h5>Mô tả:</h5>
+                <p>@Model.ProductDescription</p>
+            </div>
+
+            <div class="mt-4">
+                <a href="/Cart/Add/@Model.ProductId" class="btn btn-success btn-lg">Thêm vào giỏ hàng</a>
+                <a href="/Home" class="btn btn-secondary">Quay lại trang chủ</a>
+            </div>
+        </div>
+    </div>
+</div>
