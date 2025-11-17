@@ -55,7 +55,7 @@ public partial class MyStoreContext : DbContext
             entity.Property(e => e.OrderId).HasColumnName("OrderId");
             entity.Property(e => e.AddressDelivery).HasColumnName("AddressDelivery");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerId");
-            entity.Property(e => e.OrderDate).HasColumnName("OrderDate");
+            entity.Property(e => e.OrderDate).HasColumnName("OrderDate").HasColumnType("timestamp");
             entity.Property(e => e.PaymentStatus).HasColumnName("PaymentStatus");
             entity.Property(e => e.TotalAmount).HasPrecision(18, 2).HasColumnName("TotalAmount");
 

@@ -22,11 +22,15 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
             return View(cart);
         }
 
-        // Thêm vào giỏ hàng
+        // ✅ Thêm vào giỏ hàng (GET - dùng cho link)
         public IActionResult Add(int id)
         {
             var product = _context.Products.Find(id);
-            if (product == null) return NotFound();
+            if (product == null)
+            {
+                TempData["Error"] = "Sản phẩm không tồn tại!";
+                return RedirectToAction("Index", "Home");
+            }
 
             var cart = GetCart();
             var item = cart.FirstOrDefault(x => x.ProductId == id);
@@ -48,17 +52,26 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
             }
 
             SaveCart(cart);
+            TempData["Success"] = $"Đã thêm {product.ProductName} vào giỏ hàng!";
+
+            // ✅ Quay lại trang trước đó
+            var referer = Request.Headers["Referer"].ToString();
+            if (!string.IsNullOrEmpty(referer))
+            {
+                return Redirect(referer);
+            }
             return RedirectToAction("Index");
         }
 
         // Xóa khỏi giỏ hàng
-        public IActionResult Remove(int productId) // ✅ ĐỔI TỪ id → productId
+        public IActionResult Remove(int productId)
         {
             var cart = GetCart();
             var item = cart.FirstOrDefault(x => x.ProductId == productId);
             if (item != null)
             {
                 cart.Remove(item);
+                TempData["Success"] = "Đã xóa sản phẩm khỏi giỏ hàng!";
             }
 
             SaveCart(cart);
@@ -67,7 +80,7 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
 
         // Cập nhật số lượng
         [HttpPost]
-        public IActionResult UpdateQuantity(int productId, int quantity) // ✅ ĐỔI TỪ id → productId
+        public IActionResult UpdateQuantity(int productId, int quantity)
         {
             var cart = GetCart();
             var item = cart.FirstOrDefault(x => x.ProductId == productId);
@@ -77,10 +90,12 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
                 if (quantity <= 0)
                 {
                     cart.Remove(item);
+                    TempData["Success"] = "Đã xóa sản phẩm khỏi giỏ hàng!";
                 }
                 else
                 {
                     item.Quantity = quantity;
+                    TempData["Success"] = "Đã cập nhật số lượng!";
                 }
             }
 
@@ -92,6 +107,7 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
         public IActionResult Clear()
         {
             HttpContext.Session.Remove("Cart");
+            TempData["Success"] = "Đã xóa toàn bộ giỏ hàng!";
             return RedirectToAction("Index");
         }
 

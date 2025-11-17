@@ -141,5 +141,51 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
                 return Convert.ToHexString(hashBytes);
             }
         }
+        // Trang Profile
+        public async Task<IActionResult> Profile()
+        {
+            var username = HttpContext.Session.GetString("Username");
+            if (string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("Login");
+            }
+
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Username == username);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+
+        // Cập nhật Profile
+        [HttpPost]
+        public async Task<IActionResult> Profile(Models.Customer model)
+        {
+            var username = HttpContext.Session.GetString("Username");
+            if (string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("Login");
+            }
+
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Username == username);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            // Update thông tin
+            customer.CustomerName = model.CustomerName;
+            customer.CustomerPhone = model.CustomerPhone;
+            customer.CustomerEmail = model.CustomerEmail;
+            customer.CustomerAddress = model.CustomerAddress;
+
+            _context.Update(customer);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
+            return RedirectToAction("Profile");
+        }
     }
 }

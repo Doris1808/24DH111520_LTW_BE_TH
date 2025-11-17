@@ -23,7 +23,7 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
                 .Take(12)
                 .ToList();
 
-            // ✅ TRUYỀN CATEGORIES VÀO VIEWBAG
+            //  TRUYỀN CATEGORIES VÀO VIEWBAG
             ViewBag.Categories = _context.Categories.ToList();
 
             return View(products);

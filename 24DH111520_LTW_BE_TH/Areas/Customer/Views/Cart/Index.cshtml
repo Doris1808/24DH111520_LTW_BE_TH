@@ -3,75 +3,81 @@
     ViewData["Title"] = "Giỏ hàng";
 }
 
-@if (Model == null || !Model.Any())
-{
-    <div class="alert alert-warning text-center">
-        <h4>Bạn chưa có sản phẩm nào trong giỏ hàng.</h4>
-        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">
-            Mua sắm ngay
-        </a>
-    </div>
-}
-else
-{
-    <h2><i class="fas fa-shopping-cart"></i> Giỏ hàng của bạn</h2>
+<div class="container my-4">
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <h4>Bạn chưa có sản phẩm nào trong giỏ hàng.</h4>
+            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">
+                Mua sắm ngay
+            </a>
+        </div>
+    }
+    else
+    {
+        <h3 class="mb-4">Giỏ hàng của bạn</h3>
 
-    <table class="table table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>Hình ảnh</th>
-                <th>Tên sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Tổng</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @if (!string.IsNullOrEmpty(item.ProductImage))
-                        {
-                            <img src="@item.ProductImage" alt="@item.ProductName" style="width: 80px; height: 80px; object-fit: cover;">
-                        }
-                    </td>
-                    <td>@item.ProductName</td>
-                    <td>@item.ProductPrice.ToString("N0") VNĐ</td>
-                    <td>
-                        <form method="post" asp-action="UpdateQuantity" class="d-inline">
-                            <input type="hidden" name="productId" value="@item.ProductId" />
-                            <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width: 80px;" />
-                            <button type="submit" class="btn btn-sm btn-info mt-1">Cập nhật</button>
-                        </form>
-                    </td>
-                    <td><strong>@item.Total.ToString("N0") VNĐ</strong></td>
-                    <td>
-                        <a asp-action="Remove" asp-route-productId="@item.ProductId" class="btn btn-sm btn-danger">
-                            <i class="fas fa-trash"></i> Xóa
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr class="table-success">
-                <td colspan="4" class="text-end"><strong>Tổng cộng:</strong></td>
-                <td colspan="2"><strong class="text-danger fs-5">@Model.Sum(x => x.Total).ToString("N0") VNĐ</strong></td>
-            </tr>
-        </tfoot>
-    </table>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Tổng</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.ProductImage))
+                                {
+                                    <img src="@item.ProductImage" alt="@item.ProductName" style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;">
+                                }
+                            </td>
+                            <td class="align-middle">@item.ProductName</td>
+                            <td class="align-middle">@item.ProductPrice.ToString("N0") VNĐ</td>
+                            <td class="align-middle">
+                                <form method="post" asp-action="UpdateQuantity" class="d-inline">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control form-control-sm" style="width: 70px;" />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary mt-1">Cập nhật</button>
+                                </form>
+                            </td>
+                            <td class="align-middle"><strong>@item.Total.ToString("N0") VNĐ</strong></td>
+                            <td class="align-middle">
+                                <a asp-action="Remove" asp-route-productId="@item.ProductId" class="btn btn-sm btn-outline-danger">
+                                    Xóa
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="table-secondary">
+                        <td colspan="4" class="text-end"><strong>Tổng cộng:</strong></td>
+                        <td colspan="2"><strong class="text-primary fs-5">@Model.Sum(x => x.Total).ToString("N0") VNĐ</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
-    <div class="d-flex justify-content-between mt-4">
-        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Tiếp tục mua sắm
-        </a>
-        <a asp-area="Customer" asp-controller="Cart" asp-action="Clear" class="btn btn-warning">
-            <i class="fas fa-broom"></i> Xóa giỏ hàng
-        </a>
-        <a asp-area="Customer" asp-controller="Order" asp-action="Checkout" class="btn btn-success btn-lg">
-            <i class="fas fa-credit-card"></i> Thanh toán
-        </a>
-    </div>
-}
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                Tiếp tục mua sắm
+            </a>
+            <div>
+                <a asp-area="Customer" asp-controller="Cart" asp-action="Clear" class="btn btn-outline-warning me-2">
+                    Xóa giỏ hàng
+                </a>
+                <a asp-area="Customer" asp-controller="Order" asp-action="Checkout" class="btn btn-success">
+                    Thanh toán
+                </a>
+            </div>
+        </div>
+    }
+</div>
