@@ -1,49 +1,46 @@
-﻿@model IEnumerable<_24DH111520_LTW_BE_TH.Models.Product>
-
+﻿@model List<_24DH111520_LTW_BE_TH.Models.Product>
 @{
-    ViewBag.Title = "Trang chủ";
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="container mt-4">
-    <!-- SEARCH BAR -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <form action="/Home/Search" method="get" class="d-flex">
-                <input type="text" name="keyword" class="form-control me-2" placeholder="Tìm kiếm sản phẩm..." />
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-            </form>
-        </div>
-    </div>
+<!-- BANNER QUẢNG CÁO -->
+<div class="mb-4">
+    <img src="https://cdn1.fahasa.com/media/magentothem/banner7/Resize_SbooksT11_KC_840x320.png"
+         alt="Banner quảng cáo"
+         class="img-fluid w-100 rounded shadow"
+         style="max-height: 400px; object-fit: cover;" />
+</div>
 
-    <!-- TITLE -->
-    <h2 class="mb-4">Sản phẩm mới nhất</h2>
+<!-- SẢN PHẨM MỚI NHẤT -->
+<h2 class="mb-4"><i class="fas fa-fire text-danger"></i> Sản phẩm mới nhất</h2>
 
-    <!-- PRODUCT GRID -->
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-md-3 mb-4">
-                <div class="card h-100">
-                    @if (!string.IsNullOrEmpty(item.ProductImage))
-                    {
-                        <img src="@item.ProductImage" class="card-img-top" alt="@item.ProductName" style="height: 200px; object-fit: cover;">
-                    }
-                    else
-                    {
-                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
-                            <span class="text-white">No Image</span>
-                        </div>
-                    }
-
-                    <div class="card-body">
-                        <h5 class="card-title">@item.ProductName</h5>
-                        <p class="card-text text-danger fw-bold">@item.ProductPrice.ToString("N0") VNĐ</p>
-                        <p class="card-text text-muted">@item.Category?.CategoryName</p>
-                        <a href="/Home/ProductDetail/@item.ProductId" class="btn btn-primary btn-sm">Xem chi tiết</a>
-                        <a href="/Cart/Add/@item.ProductId" class="btn btn-success btn-sm">Thêm vào giỏ</a>
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+                @if (!string.IsNullOrEmpty(product.ProductImage))
+                {
+                    <img src="@product.ProductImage" class="card-img-top" alt="@product.ProductName" style="height: 250px; object-fit: cover;">
+                }
+                else
+                {
+                    <img src="https://via.placeholder.com/300x400?text=No+Image" class="card-img-top" alt="No Image" style="height: 250px; object-fit: cover;">
+                }
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <p class="text-danger fw-bold fs-5">@product.ProductPrice.ToString("N0") VNĐ</p>
+                    <p class="text-muted small">@product.Category?.CategoryName</p>
+                    <div class="mt-auto">
+                        <a asp-action="ProductDetail" asp-route-id="@product.ProductId" class="btn btn-primary btn-sm me-2">
+                            <i class="fas fa-eye"></i> Xem chi tiết
+                        </a>
+                        <a asp-area="Customer" asp-controller="Cart" asp-action="Add" asp-route-id="@product.ProductId" class="btn btn-success btn-sm">
+                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                        </a>
                     </div>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
 </div>

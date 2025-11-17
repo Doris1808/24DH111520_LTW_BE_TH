@@ -118,10 +118,17 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
         }
 
         // Logout
+        //public IActionResult Logout()
+        //{
+        //    HttpContext.Session.Clear();
+        //    return RedirectToAction("Login");
+        //}
+
+        // GET: Logout
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
 
         // Hash password (simple MD5)

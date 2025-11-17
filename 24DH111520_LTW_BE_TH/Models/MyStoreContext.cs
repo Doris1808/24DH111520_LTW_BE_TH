@@ -16,138 +16,96 @@ public partial class MyStoreContext : DbContext
     }
 
     public virtual DbSet<Category> Categories { get; set; }
-
     public virtual DbSet<Customer> Customers { get; set; }
-
     public virtual DbSet<Order> Orders { get; set; }
-
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-
     public virtual DbSet<Product> Products { get; set; }
-
     public virtual DbSet<User> Users { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=jasonluong");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.CategoryId).HasName("category_pkey");
-
-            entity.ToTable("category");
-
-            entity.Property(e => e.CategoryId).HasColumnName("category_id");
-            entity.Property(e => e.CategoryName).HasColumnName("category_name");
+            entity.HasKey(e => e.CategoryId);
+            entity.ToTable("Category");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
+            entity.Property(e => e.CategoryName).HasColumnName("CategoryName");
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("customer_pkey");
-
-            entity.ToTable("customer");
-
-            entity.Property(e => e.CustomerId).HasColumnName("customer_id");
-            entity.Property(e => e.CustomerAddress).HasColumnName("customer_address");
-            entity.Property(e => e.CustomerEmail).HasColumnName("customer_email");
-            entity.Property(e => e.CustomerName).HasColumnName("customer_name");
-            entity.Property(e => e.CustomerPhone)
-                .HasMaxLength(15)
-                .HasColumnName("customer_phone");
-            entity.Property(e => e.Username)
-                .HasMaxLength(255)
-                .HasColumnName("username");
+            entity.HasKey(e => e.CustomerId);
+            entity.ToTable("Customer");
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerId");
+            entity.Property(e => e.CustomerAddress).HasColumnName("CustomerAddress");
+            entity.Property(e => e.CustomerEmail).HasColumnName("CustomerEmail");
+            entity.Property(e => e.CustomerName).HasColumnName("CustomerName");
+            entity.Property(e => e.CustomerPhone).HasMaxLength(15).HasColumnName("CustomerPhone");
+            entity.Property(e => e.Username).HasMaxLength(255).HasColumnName("Username");
 
             entity.HasOne(d => d.UsernameNavigation).WithMany(p => p.Customers)
                 .HasForeignKey(d => d.Username)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_user_customer");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("order_pkey");
-
-            entity.ToTable("order");
-
-            entity.Property(e => e.OrderId).HasColumnName("order_id");
-            entity.Property(e => e.AddressDelivery).HasColumnName("address_delivery");
-            entity.Property(e => e.CustomerId).HasColumnName("customer_id");
-            entity.Property(e => e.OrderDate).HasColumnName("order_date");
-            entity.Property(e => e.PaymentStatus).HasColumnName("payment_status");
-            entity.Property(e => e.TotalAmount)
-                .HasPrecision(18, 2)
-                .HasColumnName("total_amount");
+            entity.HasKey(e => e.OrderId);
+            entity.ToTable("Order");
+            entity.Property(e => e.OrderId).HasColumnName("OrderId");
+            entity.Property(e => e.AddressDelivery).HasColumnName("AddressDelivery");
+            entity.Property(e => e.CustomerId).HasColumnName("CustomerId");
+            entity.Property(e => e.OrderDate).HasColumnName("OrderDate");
+            entity.Property(e => e.PaymentStatus).HasColumnName("PaymentStatus");
+            entity.Property(e => e.TotalAmount).HasPrecision(18, 2).HasColumnName("TotalAmount");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_order_customer");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("order_detail_pkey");
-
-            entity.ToTable("order_detail");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.OrderId).HasColumnName("order_id");
-            entity.Property(e => e.ProductId).HasColumnName("product_id");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
-            entity.Property(e => e.UnitPrice)
-                .HasPrecision(18, 2)
-                .HasColumnName("unit_price");
+            entity.HasKey(e => e.Id);
+            entity.ToTable("OrderDetail");
+            entity.Property(e => e.Id).HasColumnName("Id");
+            entity.Property(e => e.OrderId).HasColumnName("OrderId");
+            entity.Property(e => e.ProductId).HasColumnName("ProductId");
+            entity.Property(e => e.Quantity).HasColumnName("Quantity");
+            entity.Property(e => e.UnitPrice).HasPrecision(18, 2).HasColumnName("UnitPrice");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_detail_order");
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_detail_product");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("product_pkey");
-
-            entity.ToTable("product");
-
-            entity.Property(e => e.ProductId).HasColumnName("product_id");
-            entity.Property(e => e.CategoryId).HasColumnName("category_id");
-            entity.Property(e => e.ProductDescription).HasColumnName("product_description");
-            entity.Property(e => e.ProductImage).HasColumnName("product_image");
-            entity.Property(e => e.ProductName).HasColumnName("product_name");
-            entity.Property(e => e.ProductPrice)
-                .HasPrecision(18, 2)
-                .HasColumnName("product_price");
+            entity.HasKey(e => e.ProductId);
+            entity.ToTable("Product");
+            entity.Property(e => e.ProductId).HasColumnName("ProductId");
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
+            entity.Property(e => e.ProductDescription).HasColumnName("ProductDescription");
+            entity.Property(e => e.ProductImage).HasColumnName("ProductImage");
+            entity.Property(e => e.ProductName).HasColumnName("ProductName");
+            entity.Property(e => e.ProductPrice).HasPrecision(18, 2).HasColumnName("ProductPrice");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_pro_category");
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Username).HasName("user_pkey");
-
-            entity.ToTable("user");
-
-            entity.Property(e => e.Username)
-                .HasMaxLength(255)
-                .HasColumnName("username");
-            entity.Property(e => e.Password)
-                .HasMaxLength(50)
-                .HasColumnName("password");
-            entity.Property(e => e.UserRole)
-                .HasMaxLength(1)
-                .HasColumnName("user_role");
+            entity.HasKey(e => e.Username);
+            entity.ToTable("User");
+            entity.Property(e => e.Username).HasMaxLength(255).HasColumnName("Username");
+            entity.Property(e => e.Password).HasMaxLength(50).HasColumnName("Password");
+            entity.Property(e => e.UserRole).HasMaxLength(1).HasColumnName("UserRole");
         });
 
         OnModelCreatingPartial(modelBuilder);

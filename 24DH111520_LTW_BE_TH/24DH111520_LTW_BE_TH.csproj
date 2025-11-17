@@ -36,6 +36,8 @@
     <None Remove="Areas\Admin\Views\Shared\" />
     <None Remove="Areas\Admin\Views\Category\" />
     <None Remove="Areas\Customer\Views\Account\" />
+    <None Remove="Areas\Customer\Views\Shared\" />
+    <None Remove="Areas\Customer\Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\" />
@@ -53,5 +55,7 @@
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Admin\Views\Category\" />
     <Folder Include="Areas\Customer\Views\Account\" />
+    <Folder Include="Areas\Customer\Views\Shared\" />
+    <Folder Include="Areas\Customer\Views\Order\" />
   </ItemGroup>
 </Project>

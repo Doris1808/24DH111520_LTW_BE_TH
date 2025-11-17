@@ -52,10 +52,10 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
         }
 
         // Xóa khỏi giỏ hàng
-        public IActionResult Remove(int id)
+        public IActionResult Remove(int productId) // ✅ ĐỔI TỪ id → productId
         {
             var cart = GetCart();
-            var item = cart.FirstOrDefault(x => x.ProductId == id);
+            var item = cart.FirstOrDefault(x => x.ProductId == productId);
             if (item != null)
             {
                 cart.Remove(item);
@@ -67,10 +67,10 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
 
         // Cập nhật số lượng
         [HttpPost]
-        public IActionResult UpdateQuantity(int id, int quantity)
+        public IActionResult UpdateQuantity(int productId, int quantity) // ✅ ĐỔI TỪ id → productId
         {
             var cart = GetCart();
-            var item = cart.FirstOrDefault(x => x.ProductId == id);
+            var item = cart.FirstOrDefault(x => x.ProductId == productId);
 
             if (item != null)
             {

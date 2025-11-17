@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2><i class="fas fa-credit-card"></i> Thanh toán</h2>
+        <hr />
+
+        <form asp-action="ProcessOrder" method="post">
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="fas fa-user"></i> Thông tin khách hàng</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Họ tên <span class="text-danger">*</span></label>
+                        <input type="text" name="customerName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                        <input type="tel" name="customerPhone" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="customerEmail" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Địa chỉ giao hàng <span class="text-danger">*</span></label>
+                        <textarea name="customerAddress" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg w-100">
+                <i class="fas fa-check-circle"></i> Xác nhận đặt hàng
+            </button>
+        </form>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5><i class="fas fa-shopping-bag"></i> Đơn hàng của bạn</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.Cart != null)
+                {
+                    @foreach (var item in ViewBag.Cart as List<_24DH111520_LTW_BE_TH.Models.CartItem>)
+                    {
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>@item.ProductName x @item.Quantity</span>
+                            <strong>@item.Total.ToString("N0") VNĐ</strong>
+                        </div>
+                        <hr />
+                    }
+                    <div class="d-flex justify-content-between">
+                        <h5>Tổng cộng:</h5>
+                        <h5 class="text-danger">@ViewBag.Total.ToString("N0") VNĐ</h5>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
 {
-    [Area("Customer")]  // ← QUAN TRỌNG
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly MyStoreContext _context;
@@ -22,6 +22,9 @@ namespace _24DH111520_LTW_BE_TH.Areas.Customer.Controllers
                 .OrderByDescending(p => p.ProductId)
                 .Take(12)
                 .ToList();
+
+            // ✅ TRUYỀN CATEGORIES VÀO VIEWBAG
+            ViewBag.Categories = _context.Categories.ToList();
 
             return View(products);
         }
